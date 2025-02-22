@@ -12,14 +12,19 @@ class ApiResponseMiddleware
     {
         $response = $next($request);
 
-        if (!($response instanceof JsonResponse)) {
-            return $response;
+        if ($request->is('api/*')) {
+            if (!($response instanceof JsonResponse)) {
+                return $response;
+            }
+
+            return response()->json([
+                'success' => $response->status() < 400,
+                'message' => Response::$statusTexts[$response->status()] ?? 'Response',
+                'data' => $response->getData(),
+            ], $response->status());
         }
 
-        return response()->json([
-            'success' => $response->status() < 400,
-            'message' => Response::$statusTexts[$response->status()] ?? 'Response',
-            'data' => $response->getData(),
-        ], $response->status());
+        return $next($request);
+
     }
 }

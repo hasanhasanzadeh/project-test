@@ -7,6 +7,7 @@ use App\Http\ApiRequests\LoginApiRequest;
 use App\Http\ApiRequests\RegisterApiRequest;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\User\UserResource;
+use App\Notifications\UserNotification;
 use App\Services\UserService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
@@ -25,6 +26,10 @@ class AuthController extends Controller
         $user = $this->userService->registerUser($request->all());
         $token = $user->createToken('auth_token')->plainTextToken;
 
+        // Send Welcome Email & SMS
+        $message = "Welcome, " . $user->name . "! Your account has been successfully created.";
+        $user->notify(new UserNotification($message, "Welcome!", "all"));
+
         return ApiResponse::success([
             'user' => new UserResource($user),
             'token' => $token,
@@ -39,6 +44,10 @@ class AuthController extends Controller
 
         $user = Auth::user();
         $token = $user->createToken('auth_token')->plainTextToken;
+
+        // Send Welcome Email & SMS
+        $message = "Hello " . $user->name . ", you have successfully logged into your account.";
+        $user->notify(new UserNotification($message, "Login Alert", "all"));
 
         return ApiResponse::success([
             'user' => new UserResource($user),
