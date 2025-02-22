@@ -62,6 +62,7 @@
                         <form action="{{route('profile.update')}}" method="POST">
                             @csrf
                             {{method_field('PATCH')}}
+                            <input type="hidden" name="id" value="{{auth()->user()->id}}">
                             <div class="-mx-3 flex flex-wrap">
                                 <div class="w-full px-3 sm:w-1/2">
                                     <div class="mb-5">
@@ -117,7 +118,7 @@
                                     </div>
                                 </div>
 
-                                <div class="w-full px-3">
+                                <div class="w-full px-3 sm:w-1/2">
                                     <div class="mb-5">
                                         <label
                                             for="email"

@@ -23,8 +23,11 @@ class ProfileUpdateRequest extends FormRequest
     public function rules(): array
     {
         return User::rules([
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255',
+            'name' => 'nullable|string|min:3|max:150',
+            'national_code' => 'nullable|numeric|ir_national_code|unique:users,national_code,'.$this->id,
+            'email' => 'required|email|max:255|unique:users,email,'.$this->id,
+            'mobile' => 'nullable|ir_mobile:zero|max:11|unique:users,mobile,'.$this->id,
+            'password' => 'nullable|string|min:6|max:32',
         ]);
     }
 }

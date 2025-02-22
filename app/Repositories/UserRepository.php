@@ -45,8 +45,7 @@ class UserRepository
 
     public function updateProfile(array $data)
     {
-        $user = User::find(auth()->user()->id)->update($data);
-        return $user->fresh();
+        return User::find(auth()->user()->id)->update($data);
     }
 
     public function deleteUser($id): int

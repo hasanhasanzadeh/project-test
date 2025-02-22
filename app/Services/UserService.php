@@ -47,7 +47,7 @@ class UserService
 
     public function updateProfile(array $data)
     {
-        if ($data['password']) {
+        if (isset($data['password'])) {
             $data['password'] = Hash::make($data['password']);
         }
         $data = array_filter($data, function ($value) {

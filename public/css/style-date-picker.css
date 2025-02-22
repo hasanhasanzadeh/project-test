@@ -1,0 +1,7 @@
+#datepicker {
+    @apply w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm;
+}
+
+.pwt-datepicker {
+    @apply bg-white shadow-lg rounded-lg;
+}

@@ -29,20 +29,10 @@ class ProfileController extends Controller
         ]);
     }
 
-    public function referral(): \Illuminate\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
-    {
-        $user = $this->userService->getUserById(auth()->user()->id);
-        $title = 'معرفی دوستان';
-        return view('user.referral.show', [
-            'user' => $user,
-            'title' => $title
-        ]);
-    }
-
     public function uploadAvatar(AvatarRequest $avatarRequest): JsonResponse
     {
         $profile = $this->userService->uploadAvatar($avatarRequest->validated());
-        return response()->json(['status' => true, 'data' => $profile->data], 200);
+        return response()->json(['status' => true, 'data' => $profile], 200);
     }
 
     /**
