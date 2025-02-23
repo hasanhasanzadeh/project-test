@@ -3,36 +3,33 @@
 namespace App\Http\Controllers\Panel;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Role\CategoryAllRequest;
-use App\Http\Requests\Role\CategoryCreateFormRequest;
-use App\Http\Requests\Role\CategoryCreateRequest;
-use App\Http\Requests\Role\CategoryDeleteRequest;
-use App\Http\Requests\Role\CategoryFindRequest;
-use App\Http\Requests\Role\CategoryUpdateFormRequest;
-use App\Http\Requests\Role\CategoryUpdateRequest;
+use App\Http\Requests\Role\RoleAllRequest;
+use App\Http\Requests\Role\RoleCreateFormRequest;
+use App\Http\Requests\Role\RoleCreateRequest;
+use App\Http\Requests\Role\RoleDeleteRequest;
+use App\Http\Requests\Role\RoleFindRequest;
+use App\Http\Requests\Role\RoleUpdateFormRequest;
+use App\Http\Requests\Role\RoleUpdateRequest;
 use App\Services\RoleService;
-use App\Services\SettingService;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 
 class RoleController extends Controller
 {
-    public function __construct(readonly private RoleService $roleService, readonly private SettingService $settingService)
+    public function __construct(readonly private RoleService $roleService)
     {
     }
 
     /**
      * Display a listing of the resource.
      */
-    public function index(CategoryAllRequest $roleAllRequest): \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory|\Illuminate\Foundation\Application
+    public function index(RoleAllRequest $roleAllRequest): \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory|\Illuminate\Foundation\Application
     {
-        $setting = $this->settingService->firstSetting();
-        $roles = $this->roleService->getAll($roleAllRequest->validated());
+        $roles = $this->roleService->getAllRole($roleAllRequest->validated());
         $title = 'نقش ها';
         return view('panel.role.index', [
-            'setting' => $setting->data,
-            'roles' => $roles->data,
+            'roles' => $roles,
             'title' => $title
         ]);
     }
@@ -40,12 +37,10 @@ class RoleController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create(CategoryCreateFormRequest $roleCreateFormRequest): \Illuminate\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+    public function create(RoleCreateFormRequest $roleCreateFormRequest): \Illuminate\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
     {
-        $setting = $this->settingService->firstSetting();
         $title = 'ایجاد نقش';
         return view('panel.role.create', [
-            'setting' => $setting->data,
             'title' => $title
         ]);
     }
@@ -53,9 +48,9 @@ class RoleController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(CategoryCreateRequest $roleCreateRequest): \Illuminate\Http\RedirectResponse
+    public function store(RoleCreateRequest $roleCreateRequest): \Illuminate\Http\RedirectResponse
     {
-        $role = $this->roleService->store($roleCreateRequest->validated());
+        $role = $this->roleService->createRole($roleCreateRequest->validated());
         toast('نقش با موفقیت ایجاد شد','success');
         return redirect()->route('roles.index');
     }
@@ -63,14 +58,12 @@ class RoleController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(CategoryFindRequest $roleFindRequest, Role $role): \Illuminate\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+    public function show(RoleFindRequest $roleFindRequest, Role $role): \Illuminate\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
     {
-        $setting = $this->settingService->firstSetting();
-        $role = $this->roleService->getRole($role);
+        $role = $this->roleService->getRoleById($role->id);
         $title = $role->data['display_name'];
         return view('panel.role.show', [
-            'setting' => $setting->data,
-            'role' => $role->data,
+            'role' => $role,
             'title' => $title
         ]);
     }
@@ -78,15 +71,13 @@ class RoleController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(CategoryUpdateFormRequest $roleUpdateFormRequest, Role $role): \Illuminate\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+    public function edit(RoleUpdateFormRequest $roleUpdateFormRequest, Role $role): \Illuminate\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
     {
-        $setting = $this->settingService->firstSetting();
-        $role = $this->roleService->getRole($role);
-        $title = $role->data['display_name'];
+        $role = $this->roleService->getRoleById($role->id);
+        $title = $role->display_name;
         $permissions = Permission::all();
         return view('panel.role.edit', [
-            'setting' => $setting->data,
-            'role' => $role->data,
+            'role' => $role,
             'permissions' => $permissions,
             'title' => $title
         ]);
@@ -95,9 +86,9 @@ class RoleController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(CategoryUpdateRequest $roleUpdateRequest, Role $role): \Illuminate\Http\RedirectResponse
+    public function update(RoleUpdateRequest $roleUpdateRequest, Role $role): \Illuminate\Http\RedirectResponse
     {
-        $role = $this->roleService->update($role,$roleUpdateRequest->validated());
+        $this->roleService->updateRole($roleUpdateRequest->validated(),$role->id);
         toast('نقش با موفقیت بروز رسانی شد','success');
         return redirect()->route('roles.index');
     }
@@ -105,9 +96,9 @@ class RoleController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(CategoryDeleteRequest $roleDeleteRequest, Role $role): \Illuminate\Http\RedirectResponse
+    public function destroy(RoleDeleteRequest $roleDeleteRequest, Role $role): \Illuminate\Http\RedirectResponse
     {
-        $role = $this->roleService->delete($role);
+        $this->roleService->deleteRole($role->id);
         toast('نقش با موفقیت حذف شد','success');
         return redirect()->route('roles.index');
     }

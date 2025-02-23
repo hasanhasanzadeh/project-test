@@ -17,7 +17,7 @@
                        class="px-4 py-2 bg-green-700 hover:bg-green-500 text-slate-100 rounded-md">@lang('dashboard.customers')</a>
                 </div>
                 <div class="flex flex-col p-2 bg-slate-100">
-                    <div>{{__('dashboard.full_name')}} : {{ $customer->full_name}}</div>
+                    <div>{{__('dashboard.full_name')}} : {{ $customer->name}}</div>
                     <div >{{__('dashboard.mobile')}}: <span dir="ltr"> {{ $customer->mobile }}</span></div>
                     <div >{{__('dashboard.email')}}: <span dir="ltr"> {{ $customer->email }}</span></div>
                     <div>

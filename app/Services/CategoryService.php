@@ -33,7 +33,7 @@ class CategoryService
         return $this->categoryRepository->updateCategory($data,$id);
     }
 
-    public function deleteCategory($id)
+    public function deleteCategory($id): int
     {
         return $this->categoryRepository->deleteCategory($id);
     }

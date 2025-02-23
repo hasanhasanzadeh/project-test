@@ -23,6 +23,11 @@ class UserService
         return $this->userRepository->findById($id);
     }
 
+    public function getUserByNationalCode($nationalCode)
+    {
+        return $this->userRepository->findByNationalCode($nationalCode);
+    }
+
     public function getAllUsers($perPage,array $search=null)
     {
         return $this->userRepository->getAllUsers($perPage,$search);

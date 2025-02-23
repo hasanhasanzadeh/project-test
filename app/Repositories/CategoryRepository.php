@@ -13,13 +13,13 @@ class CategoryRepository
         return Category::find($id);
     }
 
-    public function getAllCategories($perPage = 10,$search=null)
+    public function getAllCategories($search=null)
     {
         $categories = Category::query();
-        if($search){
-            $categories = $categories->where('name', 'LIKE', "%{$search}%");
+        if(isset($search['search'])){
+            $categories = $categories->where('name', 'LIKE', "%{$search['search']}%");
         }
-        return $categories->sortable()->paginate($perPage);
+        return $categories->sortable()->paginate(10);
     }
 
     public function createCategory(array $data)
@@ -35,14 +35,14 @@ class CategoryRepository
     public function updateCategory(array $data,$id)
     {
         $category = Category::find($id)->update($data);
-        if (isset($data['avatar'])) {
+        if (isset($data['photo'])) {
             if ($category->photo) {
                 Helper::deleteFile($category->photo->url);
                 $category->photo()->delete();
             }
-            $path = str_replace('public', 'storage', $data['avatar']->store('public/avatars'));
+            $path = str_replace('public', 'storage', $data['photo']->store('public/avatars'));
             $category->photo()->create(['path' => $path]);
         }
-        return $category->fresh();
+        return $category;
     }
 }

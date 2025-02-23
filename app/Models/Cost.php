@@ -8,11 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Kyslik\ColumnSortable\Sortable;
+use Spatie\Permission\Traits\HasRoles;
 
 class Cost extends Model
 {
 
-    use HasFactory, HasRules, Sortable;
+    use HasFactory, HasRules, Sortable, HasRoles;
     protected $table = 'costs';
     protected $fillable = [
         'amount',
@@ -30,6 +31,16 @@ class Cost extends Model
         'status',
         'created_at'
     ];
+
+    protected static array $rules = [
+        'amount'=>'required|numeric|min:1000',
+        'description'=>'nullable|string|min:3|max:150',
+        'category_id'=>'required|integer|exists:categories,id',
+        'shaba'=>'required|string|ir_sheba|size:26',
+        'note'=>'nullable|string|min:3|max:150',
+        'cost_file' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+    ];
+
     public function getStateAttribute():string
     {
         return match ($this->attributes['status']) {

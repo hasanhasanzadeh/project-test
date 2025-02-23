@@ -33,7 +33,7 @@ class PermissionService
         return $this->permissionRepository->updatePermission($data,$id);
     }
 
-    public function deletePermission($id)
+    public function deletePermission($id): int
     {
         return $this->permissionRepository->deletePermission($id);
     }

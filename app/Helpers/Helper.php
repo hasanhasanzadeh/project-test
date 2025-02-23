@@ -2,6 +2,7 @@
 
 namespace App\Helpers;
 
+use App\Models\File;
 use Illuminate\Support\Facades\Storage;
 
 class Helper
@@ -19,5 +20,12 @@ class Helper
             return Storage::disk('public')->delete($url);
         }
         return false;
+    }
+
+    public static function uploadImageVerify($file)
+    {
+        $path = $file->store('verifies', 'private');
+        $file = File::create(['path' => $path]);
+        return  $file->id;
     }
 }

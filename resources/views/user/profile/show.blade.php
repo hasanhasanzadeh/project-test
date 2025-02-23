@@ -59,7 +59,7 @@
                     <!-- Author: FormBold Team -->
                     <!-- Learn More: https://formbold.com -->
                     <div class="mx-auto w-full">
-                        <form action="{{route('profile.update')}}" method="POST">
+                        <form action="{{route('profile.update')}}" method="POST" enctype="multipart/form-data">
                             @csrf
                             {{method_field('PATCH')}}
                             <input type="hidden" name="id" value="{{auth()->user()->id}}">
@@ -136,6 +136,13 @@
                                         />
                                     </div>
                                 </div>
+                                <div class="w-full md:w-1/2 px-3 my-3">
+                                    <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2 dark:text-gray-50" for="image">
+                                        {{__('dashboard.photo_select')}}
+                                    </label>
+                                    <input class="appearance-none block w-full bg-gray-200 text-gray-700 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="image" name="avatar" type="file" placeholder="انتخاب عکس پروفایل">
+                                    <img id="image-select" @if($user->avatar) src="{{$user->avatar->address}}" @endif alt="" class="object-cover shadow rounded @if(!$user->avatar) hidden @endif" width="150" height="150">
+                                </div>
                             </div>
                             <div>
                                 <button type="submit" class="hover:shadow-form rounded-md bg-blue-600 py-3 px-8 text-center text-base font-semibold text-white outline-none">
@@ -184,6 +191,16 @@
                     });
             } else {
                 alert('هیچ عکسی اپلود انتخاب نشده است.');
+            }
+        });
+        $("#image").change(function (e) {
+            if (this.files && this.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $('#image-select').attr('src', e.target.result);
+                    $('#image-select').removeClass('hidden');
+                }
+                reader.readAsDataURL(this.files[0]);
             }
         });
     </script>

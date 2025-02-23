@@ -81,7 +81,7 @@ class User extends Authenticatable
         'email' => 'required|email|max:255|unique:users,email',
         'mobile' => 'nullable|ir_mobile:zero|max:11|unique:users,mobile',
         'password' => 'required|string|min:6|max:32',
-        'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        'avatar' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
     ];
 
     /*

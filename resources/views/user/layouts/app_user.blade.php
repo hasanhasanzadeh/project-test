@@ -43,7 +43,7 @@
                         <div class="flex justify-between p-2">
                             <div class="flex justify-center items-center dark:text-gray-200 text-gray-800">
                                     <a href="{{route('profile.show')}}"  class="flex-no-shrink bg-blue-600 hover:bg-blue-700 px-5 ml-4 py-2 text-xs shadow-sm hover:shadow-lg font-medium tracking-wider border-2 border-blue-500 hover:border-blue-500 text-white rounded-full transition ease-in duration-300">
-                                        {{$user->name}}
+                                        {{auth()->user()->name}}
                                     </a>
                             </div>
                         </div>

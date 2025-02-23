@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('description')->nullable();
             $table->enum('status',['pending','cancel','fail','accept','done'])->default('pending');
             $table->string('note')->nullable();
-            $table->string('shaba',24);
+            $table->string('shaba',26);
 
             $table->unsignedBigInteger('user_id')->index();
             $table->unsignedBigInteger('category_id')->index();

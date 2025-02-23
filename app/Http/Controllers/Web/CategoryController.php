@@ -11,15 +11,13 @@ class CategoryController extends Controller
 {
         public function search(Request $request): JsonResponse
         {
-            $users = [];
+            $categories = [];
             if($request->has('q')){
                 $search = $request->q;
-                $users = Category::select("id", "name","mobile",'email')->with('avatar')
+                $categories = Category::select("id", "name")
                     ->where('name', 'LIKE', "%$search%")
-                    ->orWhere('mobile', 'LIKE', "%$search%")
-                    ->orWhere('email', 'LIKE', "%$search%")
                     ->get();
             }
-            return response()->json($users);
+            return response()->json($categories);
         }
 }

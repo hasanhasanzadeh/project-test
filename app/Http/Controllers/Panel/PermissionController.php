@@ -18,7 +18,7 @@ use Spatie\Permission\Models\Role;
 
 class PermissionController extends Controller
 {
-    public function __construct(readonly private PermissionService $permissionService,readonly private SettingService $settingService)
+    public function __construct(readonly private PermissionService $permissionService)
     {
     }
 
@@ -27,12 +27,10 @@ class PermissionController extends Controller
      */
     public function index(PermissionAllRequest $permissionAllRequest): \Illuminate\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
     {
-        $setting = $this->settingService->firstSetting();
-        $permissions = $this->permissionService->getAll($permissionAllRequest->toArray());
+        $permissions = $this->permissionService->getAllPermisions($permissionAllRequest->toArray());
         $title = 'اجازه ها';
         return view('panel.permission.index', [
-            'setting' => $setting->data,
-            'permissions' => $permissions->data,
+            'permissions' => $permissions,
             'title' => $title
         ]);
     }
@@ -42,10 +40,8 @@ class PermissionController extends Controller
      */
     public function create(PermissionCreateFormRequest $permissionCreateFormRequest): \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory|\Illuminate\Foundation\Application
     {
-        $setting = $this->settingService->firstSetting();
         $title = 'ایجاد اجازه ها';
         return view('panel.permission.create', [
-            'setting' => $setting->data,
             'title' => $title
         ]);
     }
@@ -55,7 +51,7 @@ class PermissionController extends Controller
      */
     public function store(PermissionCreateRequest $permissionCreateRequest): \Illuminate\Http\RedirectResponse
     {
-        $permission = $this->permissionService->store($permissionCreateRequest->validated());
+        $this->permissionService->createPermission($permissionCreateRequest->validated());
         toast('اطلاعات با موفقیت ایجاد شد', 'success');
         return redirect()->route('permissions.index');
     }
@@ -65,12 +61,10 @@ class PermissionController extends Controller
      */
     public function show(PermissionFindRequest $permissionFindRequest,Permission $permission): \Illuminate\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
     {
-        $setting = $this->settingService->firstSetting();
-        $permission = $this->permissionService->getPermission($permission);
-        $title = $permission->data['title'];
+        $permission = $this->permissionService->getPermissionById($permission->id);
+        $title = $permission->display_name;
         return view('panel.permission.show', [
-            'setting' => $setting->data,
-            'permission' => $permission->data,
+            'permission' => $permission,
             'title' => $title
         ]);
     }
@@ -80,12 +74,10 @@ class PermissionController extends Controller
      */
     public function edit(PermissionUpdateFormRequest $permissionUpdateFormRequest,Permission $permission): \Illuminate\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
     {
-        $setting = $this->settingService->firstSetting();
-        $permission = $this->permissionService->getPermission($permission);
-        $title = $permission->data['title'];
+        $permission = $this->permissionService->getPermissionById($permission->id);
+        $title = $permission->display_name;
         return view('panel.permission.edit', [
-            'setting' => $setting->data,
-            'permission' => $permission->data,
+            'permission' => $permission,
             'title' => $title
         ]);
     }
@@ -95,7 +87,7 @@ class PermissionController extends Controller
      */
     public function update(PermissionUpdateRequest $permissionUpdateRequest,Permission $permission): \Illuminate\Http\RedirectResponse
     {
-        $permission = $this->permissionService->update($permission,$permissionUpdateRequest->validated());
+        $this->permissionService->updatePermission($permissionUpdateRequest->validated(),$permission->id);
         toast('اطلاعات با موفقیت بروز رسانی شد', 'success');
         return redirect()->route('permissions.index');
     }
@@ -105,7 +97,7 @@ class PermissionController extends Controller
      */
     public function destroy(PermissionDeleteRequest $permissionDeleteRequest,Permission $permission): \Illuminate\Http\RedirectResponse
     {
-        $permission = $this->permissionService->delete($permission);
+        $this->permissionService->deletePermission($permission->id);
         toast('اطلاعات با موفقیت حذف شد', 'success');
         return redirect()->route('permissions.index');
     }

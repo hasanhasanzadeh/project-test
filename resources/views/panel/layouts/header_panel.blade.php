@@ -7,10 +7,10 @@
                     <svg id="toggleSidebarMobileClose" class="hidden w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
                 </button>
                 <a href="{{url('/')}}" class="flex mr-2 md:ml-24">
-                    <img src="{{$setting->logo->address??asset('/images/logo/logo-icon.svg')}}" class="h-8 w-8 object-cover mr-3" alt="FlowBite Logo">
+                    <img src="{{asset('/images/logo/logo-icon.svg')}}" class="h-8 w-8 object-cover mr-3" alt="FlowBite Logo">
                     <span class="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap dark:text-white">
                         <span class="px-2">
-                            {{$setting->title}}
+                            {{$title}}
                         </span>
                     </span>
                 </a>
@@ -64,61 +64,14 @@
                                 </div>
                             </div>
                         </a>
-                        <a href="{{route('verifies.index')}}" class="flex px-2 py-3 border-b hover:bg-gray-100 dark:hover:bg-gray-600 dark:border-gray-600">
+                        <a href="{{route('costs.index')}}" class="flex px-2 py-3 border-b hover:bg-gray-100 dark:hover:bg-gray-600 dark:border-gray-600">
                             <div class="w-full pl-3 flex px-2 items-center justify-content-center text-center">
                                 <div class="text-gray-500 font-normal text-sm mb-1.5 dark:text-gray-400">
-                                    <span class="font-medium text-gray-700 dark:text-gray-100 text-xl">{{\App\Helpers\DashboardPanel::dashboard()['verifyToday']}}</span>
+                                    <span class="font-medium text-gray-700 dark:text-gray-100 text-xl">{{\App\Helpers\DashboardPanel::dashboard()['requestPaymentToday']}}</span>
                                 </div>
                                 <div class="text-gray-500 font-normal text-sm mb-1.5 dark:text-gray-400">
                                     <span class="font-semibold text-gray-600 dark:text-gray-100 px-3">
-                                      تعداد درخواست احراز هویت امروز
-                                    </span>
-                                </div>
-                            </div>
-                        </a>
-                        <a href="{{route('contacts.index')}}" class="flex px-2 py-3 border-b hover:bg-gray-100 dark:hover:bg-gray-600 dark:border-gray-600">
-                            <div class="w-full pl-3 flex px-2 items-center justify-content-center text-center">
-                                <div class="text-gray-500 font-normal text-sm mb-1.5 dark:text-gray-400">
-                                    <span class="font-medium text-gray-700 dark:text-gray-100 text-xl">{{\App\Helpers\DashboardPanel::dashboard()['contactToday']}}</span>
-                                </div>
-                                <div class="text-gray-500 font-normal text-sm mb-1.5 dark:text-gray-400">
-                                    <span class="font-semibold text-gray-600 dark:text-gray-100 px-3">
-                                      نظرات ثبت شده امروز
-                                    </span>
-                                </div>
-                            </div>
-                        </a>
-                        <a href="{{route('tickets.index')}}" class="flex px-2 py-3 border-b hover:bg-gray-100 dark:hover:bg-gray-600 dark:border-gray-600">
-                            <div class="w-full pl-3 flex px-2 items-center justify-content-center text-center">
-                                <div class="text-gray-500 font-normal text-sm mb-1.5 dark:text-gray-400">
-                                    <span class="font-medium text-gray-700 dark:text-gray-100 text-xl">{{\App\Helpers\DashboardPanel::dashboard()['ticketToday']}}</span>
-                                </div>
-                                <div class="text-gray-500 font-normal text-sm mb-1.5 dark:text-gray-400">
-                                    <span class="font-semibold text-gray-600 dark:text-gray-100 px-3">
-                                      تیکت های ثبت شده امروز
-                                    </span>
-                                </div>
-                            </div>
-                        </a>
-                        <a href="{{route('payments.index')}}" class="flex px-2 py-3 border-b hover:bg-gray-100 dark:hover:bg-gray-600 dark:border-gray-600">
-                            <div class="w-full pl-3 flex px-2 items-center justify-content-center text-center">
-                                <div class="text-gray-500 font-normal text-sm mb-1.5 dark:text-gray-400">
-                                    <span class="font-medium text-gray-700 dark:text-gray-100 text-xl">{{\App\Helpers\DashboardPanel::dashboard()['paymentCount']}}</span>
-                                </div>
-                                <div class="text-gray-500 font-normal text-sm mb-1.5 dark:text-gray-400">
-                                    <span class="font-semibold text-gray-600 dark:text-gray-100 px-3">
-                                      پرداخت های  موفق امروز
-                                    </span>
-                                </div>
-                            </div>
-                            <a href="{{route('withdrawals.index')}}" class="flex px-2 py-3 border-b hover:bg-gray-100 dark:hover:bg-gray-600 dark:border-gray-600">
-                            <div class="w-full pl-3 flex px-2 items-center justify-content-center text-center">
-                                <div class="text-gray-500 font-normal text-sm mb-1.5 dark:text-gray-400">
-                                    <span class="font-medium text-gray-700 dark:text-gray-100 text-xl">{{\App\Helpers\DashboardPanel::dashboard()['withdrawalCount']}}</span>
-                                </div>
-                                <div class="text-gray-500 font-normal text-sm mb-1.5 dark:text-gray-400">
-                                    <span class="font-semibold text-gray-600 dark:text-gray-100 px-3">
-                                      برداشت های  معلق امروز
+                                      تعداد درخواست پرداخت امروز
                                     </span>
                                 </div>
                             </div>
@@ -137,7 +90,7 @@
                     <div class="z-50 hidden my-4 max-w-sm text-base w-[200px] list-none bg-white divide-y divide-gray-100 rounded shadow dark:bg-gray-700 dark:divide-gray-600" id="dropdown-2" style="position: absolute; inset: 0px auto auto 0px; margin: 0px; transform: translate(1884px, 973px);" data-popper-placement="bottom">
                         <div class="px-4 py-3" role="none">
                             <p class="text-sm font-medium text-center text-gray-900 truncate dark:text-gray-300" role="none">
-                                {{auth()->user()->full_name??auth()->user()->mobile}}
+                                {{auth()->user()->name??auth()->user()->mobile}}
                             </p>
                         </div>
                         <ul class="py-1" role="none">
@@ -151,13 +104,6 @@
                                 <a href="{{route('dashboard.user')}}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white" role="menuitem">
                                     <i class="fa-solid fa-chart-area"></i>
                                     <span class="px-2">پنل کاربری</span>
-                                </a>
-                            </li>
-
-                            <li>
-                                <a href="{{route('profile.admin.show')}}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white" role="menuitem">
-                                    <i class="fa fa-user"></i>
-                                    <span class="px-2">پروفایل</span>
                                 </a>
                             </li>
                             <li>

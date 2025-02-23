@@ -87,7 +87,7 @@ class CustomerController extends Controller
      */
     public function update(CustomerUpdateRequest $customerUpdateRequest, User $customer): RedirectResponse
     {
-        $this->userService->updateUser($customerUpdateRequest->validated(),$customer);
+        $this->userService->updateUser($customerUpdateRequest->validated(),$customer->id);
         toast('اطلاعات با موفقیت بروزرسانی شد', 'success');
         return redirect()->route('customers.index');
     }
@@ -97,7 +97,7 @@ class CustomerController extends Controller
      */
     public function destroy(CustomerDeleteRequest $customerDeleteRequest, User $customer): RedirectResponse
     {
-        $user = $this->userService->deleteUser($customer);
+        $this->userService->deleteUser($customer->id);
         toast('اطلاعات با موفقیت حذف شد', 'success');
         return redirect()->route('customers.index');
     }

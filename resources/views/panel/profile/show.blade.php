@@ -7,8 +7,6 @@
                     <div class="flex justify-between p-2">
                         <div class="flex justify-center items-center dark:text-gray-200 text-gray-800">
                             <i class="fa-solid fa-wallet fa-xl px-3"></i>
-                            <span>{{number_format($user->balance,0)}}</span>
-                            <span class="px-2">تومان</span>
                         </div>
                         <div class="flex justify-center items-center dark:text-gray-200 text-gray-800">
                             <i class="fa fa-mobile fa-xl px-1"></i>
@@ -24,7 +22,7 @@
                     <div class="flex-none sm:flex">
                         <div class=" relative h-32 w-32  sm:mb-0 mb-3">
                             @if($user->avatar)
-                                <img src="{{$user->avatar->address}}" alt="{{$user->full_name}}" class=" w-32 h-32 object-cover rounded-2xl">
+                                <img src="{{$user->avatar->address}}" alt="{{$user->name}}" class=" w-32 h-32 object-cover rounded-2xl">
                             @else
                                 <img src="{{asset('/images/user/avatar-profile.png')}}" alt="avatar default" class=" w-32 h-32 object-cover rounded-2xl">
                             @endif
@@ -40,7 +38,7 @@
                                 <div class="flex items-center">
                                     <div class="flex flex-col mr-2">
                                         <div class="w-full flex-none px-3 text-lg text-gray-200 font-bold leading-none">
-                                            {{$user->full_name_with_gender??$user->mobile}}
+                                            {{$user->name??$user->mobile}}
                                         </div>
                                         <div class="flex-auto text-gray-400 m-1">
                                             <span class="ml-3">
@@ -53,18 +51,7 @@
                             </div>
                             <div class="flex flex-row items-center">
                                 <div class="flex mr-2">
-                                    @if($user->userLevel)
-                                        @for($i=1,$k=$user->userLevel->number;$i <= $user->userLevel->number;$i++,$k--)
-                                            <i class="fa-solid fa-star text-yellow-400 fa-xl py-2 px-1"></i>
-                                        @endfor
-                                        @for(;$k > 0;$k--)
-                                                <i class="fa-regular fa-star text-yellow-400 fa-xl py-2 px-1"></i>
-                                        @endfor
-                                    @else
-                                        @for($j=1;$j <= 6;$j++)
-                                            <i class="fa-regular fa-star text-yellow-400 fa-xl py-2 px-1"></i>
-                                        @endfor
-                                    @endif
+                                    <i class="fa-regular fa-star text-yellow-400 fa-xl py-2 px-1"></i>
                                 </div>
                             </div>
                             <div class="flex pt-3 px-2 text-sm text-gray-400">
@@ -77,11 +64,7 @@
 
                                         </path>
                                     </svg>
-                                    <p class="px-2">{{$user->userLevel->title??'سطح صفر'}}</p>
                                 </div>
-                                <a href="{{route('level.show')}}"  class="flex-no-shrink bg-yellow-600 hover:bg-yellow-700 px-5 ml-4 py-2 text-xs shadow-sm hover:shadow-lg font-medium tracking-wider border-2 border-yellow-500 hover:border-yellow-500 text-white rounded-full transition ease-in duration-300">
-                                    ارتقاء سطح کاربری
-                                </a>
                             </div>
                         </div>
                     </div>
@@ -96,7 +79,7 @@
                     <!-- Author: FormBold Team -->
                     <!-- Learn More: https://formbold.com -->
                     <div class="mx-auto w-full">
-                        <form action="{{route('profile.admin.update')}}" method="POST">
+                        <form action="{{route('profile.update')}}" method="POST">
                             @csrf
                             {{method_field('PATCH')}}
                             <div class="-mx-3 flex flex-wrap">
@@ -109,23 +92,8 @@
                                             type="text"
                                             name="full_name"
                                             id="full_name"
-                                            value="{{$user->full_name}}"
+                                            value="{{$user->name}}"
                                             placeholder="نام و نام خانوادگی"
-                                            class="w-full rounded-md border border-[#e0e0e0] bg-white dark:bg-gray-600 py-3 px-6 text-base font-medium text-gray-800 dark:text-gray-200 outline-none focus:border-[#6A64F1] focus:shadow-md"
-                                        />
-                                    </div>
-                                </div>
-                                <div class="w-full px-3 sm:w-1/2">
-                                    <div class="mb-5">
-                                        <label for="father_name" class="mb-3 block dark:text-gray-200 text-gray-800 text-base font-medium">
-                                            نام پدر
-                                        </label>
-                                        <input
-                                            type="text"
-                                            name="father_name"
-                                            id="father_name"
-                                            value="{{$user->father_name}}"
-                                            placeholder="نام پدر"
                                             class="w-full rounded-md border border-[#e0e0e0] bg-white dark:bg-gray-600 py-3 px-6 text-base font-medium text-gray-800 dark:text-gray-200 outline-none focus:border-[#6A64F1] focus:shadow-md"
                                         />
                                     </div>
@@ -148,57 +116,6 @@
                                         />
                                     </div>
                                 </div>
-                                <div class="w-full px-3 sm:w-1/2">
-                                    <div class="mb-5">
-                                        <label
-                                            for="datepicker"
-                                            class="mb-3 block dark:text-gray-200 text-gray-800 text-base font-medium"
-                                        >
-                                            تاریخ تولد
-                                        </label>
-                                        <input
-                                            type="text"
-                                            name="birthday"
-                                            id="datepicker"
-                                            value="{{$user->birthday?verta()->parse($user->birthday)->format('Y-m-d'):''}}}}"
-                                            class="w-full datepicker rounded-md border border-[#e0e0e0] bg-white dark:bg-gray-600 py-3 px-6 text-base font-medium text-gray-800 dark:text-gray-200 outline-none focus:border-[#6A64F1] focus:shadow-md"
-                                        />
-                                    </div>
-                                </div>
-                                <div class="w-full px-3 sm:w-1/2">
-                                    <div class="mb-5">
-                                        <label
-                                            for="mobile"
-                                            class="mb-3 block dark:text-gray-200 text-gray-800 text-base font-medium"
-                                        >
-                                            موبایل
-                                        </label>
-                                        <input
-                                            type="text"
-                                            maxlength="11"
-                                            name="mobile"
-                                            id="mobile"
-                                            value="{{$user->mobile}}"
-                                            placeholder="موبایل"
-                                            class="w-full rounded-md border border-[#e0e0e0] bg-white dark:bg-gray-600 py-3 px-6 text-base font-medium text-gray-800 dark:text-gray-200 outline-none focus:border-[#6A64F1] focus:shadow-md"
-                                        />
-                                    </div>
-                                </div>
-                                <div class="w-full px-3 sm:w-1/2">
-                                    <div class="mb-5">
-                                        <label
-                                            for="gender"
-                                            class="mb-3 block dark:text-gray-200 text-gray-800 text-base font-medium"
-                                        >
-                                            جنسیت
-                                        </label>
-                                        <select name="gender" id="gender" dir="ltr" class="w-full rounded-md border border-[#e0e0e0] bg-white dark:bg-gray-600 py-3 px-6 text-base font-medium text-gray-800 dark:text-gray-200 outline-none focus:border-[#6A64F1] focus:shadow-md">
-                                            <option value="" @if($user->gender==null) selected @endif>انتخاب جنسیت</option>
-                                            <option value="male" @if($user->gender=='male') selected @endif>آقا</option>
-                                            <option value="female" @if($user->gender=='female') selected @endif>خانم</option>
-                                        </select>
-                                    </div>
-                                </div>
 
                                 <div class="w-full px-3">
                                     <div class="mb-5">
@@ -218,13 +135,12 @@
                                         />
                                     </div>
                                 </div>
-                                <div class="w-full px-3">
-                                    <div class="mb-5">
-                                        <label for="address" class="mb-3 block dark:text-gray-200 text-gray-800 text-base font-medium">
-                                            آدرس
-                                        </label>
-                                        <input name="address" placeholder="آدرس" value="{{$user->address}}" id="address" class="w-full rounded-md border border-[#e0e0e0] bg-white dark:bg-gray-600 py-3 px-6 text-base font-medium text-gray-800 dark:text-gray-200 outline-none focus:border-[#6A64F1] focus:shadow-md" />
-                                    </div>
+                                <div class="w-full md:w-1/2 px-3 my-3">
+                                    <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2 dark:text-gray-50" for="image">
+                                        {{__('dashboard.photo_select')}}
+                                    </label>
+                                    <input class="appearance-none block w-full bg-gray-200 text-gray-700 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="image" name="avatar" type="file" placeholder="انتخاب عکس پروفایل">
+                                    <img id="image-select" @if($user->avatar) src="{{$user->avatar->address}}" @endif alt="" class="object-cover shadow rounded @if(!$user->avatar) hidden @endif" width="150" height="150">
                                 </div>
                             </div>
                             <div>
@@ -274,6 +190,16 @@
                     });
             } else {
                 alert('هیچ عکسی اپلود انتخاب نشده است.');
+            }
+        });
+        $("#image").change(function (e) {
+            if (this.files && this.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $('#image-select').attr('src', e.target.result);
+                    $('#image-select').removeClass('hidden');
+                }
+                reader.readAsDataURL(this.files[0]);
             }
         });
     </script>

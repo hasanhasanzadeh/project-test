@@ -62,10 +62,10 @@ class CategoryController extends Controller
      */
     public function show(CategoryFindRequest $categoryFindRequest, Category $category): Application|Factory|View
     {
-        $user = $this->categoryService->getCategoryById($category->id);
-        $title = $user->name;
+        $category = $this->categoryService->getCategoryById($category->id);
+        $title = $category->name;
         return view('panel.category.show', [
-            'Category' => $user,
+            'category' => $category,
             'title' => $title
         ]);
     }
@@ -75,10 +75,10 @@ class CategoryController extends Controller
      */
     public function edit(CategoryUpdateFormRequest $categoryUpdateFormRequest, Category $category): Application|Factory|View
     {
-        $user = $this->categoryService->getCategoryById($category->id);
-        $title = $user->name;
+        $category = $this->categoryService->getCategoryById($category->id);
+        $title = $category->name;
         return view('panel.category.edit', [
-            'Category' => $user,
+            'category' => $category,
             'title' => $title
         ]);
     }
@@ -98,8 +98,8 @@ class CategoryController extends Controller
      */
     public function destroy(CategoryDeleteRequest $categoryDeleteRequest, Category $category): RedirectResponse
     {
-        $user = $this->categoryService->deleteCategory($category);
+        $this->categoryService->deleteCategory($category->id);
         toast('اطلاعات با موفقیت حذف شد', 'success');
-        return redirect()->route('categorys.index');
+        return redirect()->route('categories.index');
     }
 }

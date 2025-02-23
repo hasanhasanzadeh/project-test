@@ -28,6 +28,7 @@ return Application::configure(basePath: dirname(__DIR__))
             'permission' => \Spatie\Permission\Middleware\PermissionMiddleware::class,
             'role_or_permission' => \Spatie\Permission\Middleware\RoleOrPermissionMiddleware::class,
             'ApiResponses' => App\Helpers\ApiResponse::class,
+            'PanelAccess' => App\Http\Middleware\PanelAccessMiddleware::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {

@@ -13,7 +13,7 @@
         <div class="w-full overflow-hidden rounded-lg shadow-xs" >
             <div class="w-full overflow-x-auto">
                 @if(!$permissions->isEmpty())
-                    <table class="w-full  border">
+                    <table class="w-full">
                         <thead>
                         <tr class="text-sm font-bold tracking-wide text-center text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800" >
                             <th class="px-4 py-3">{{__('dashboard.row')}}</th>

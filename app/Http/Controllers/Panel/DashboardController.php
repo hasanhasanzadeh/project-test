@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\Panel;
 
 use App\Http\Controllers\Controller;
+use App\Repositories\UserRepository;
+use App\Services\UserService;
 
 class DashboardController extends Controller
 {
-    public function __construct()
+    public function __construct(readonly private UserService $userService)
     {
     }
 
@@ -18,7 +20,7 @@ class DashboardController extends Controller
         }
         $title = 'داشبورد';
         $user = $this->userService->getUserById(auth()->user()->id);
-        return view('user.dashboard.index', [
+        return view('panel.dashboard.index', [
             'title' => $title,
             'user' => $user,
         ]);

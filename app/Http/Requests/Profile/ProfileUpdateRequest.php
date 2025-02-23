@@ -28,6 +28,7 @@ class ProfileUpdateRequest extends FormRequest
             'email' => 'required|email|max:255|unique:users,email,'.$this->id,
             'mobile' => 'nullable|ir_mobile:zero|max:11|unique:users,mobile,'.$this->id,
             'password' => 'nullable|string|min:6|max:32',
+            'avatar' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
     }
 }

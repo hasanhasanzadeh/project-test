@@ -13,15 +13,20 @@ class UserRepository
         return User::find($id);
     }
 
-    public function getAllUsers($perPage = 10,$search=null)
+    public function findByNationalCode($nationalCode)
+    {
+        return User::where('national_code',$nationalCode)->first();
+    }
+
+    public function getAllUsers($search = null)
     {
         $users = User::query();
-        if($search){
-            $users = $users->where('name', 'LIKE', "%{$search}%")
-                ->orWhere('email', 'LIKE', "%{$search}%")
-                ->orWhere('mobile', 'LIKE', "%{$search}%");
+        if (isset($search['search'])) {
+            $users = $users->where('name', 'LIKE', "%{$search['search']}%")
+                ->orWhere('email', 'LIKE', "%{$search['search']}%")
+                ->orWhere('mobile', 'LIKE', "%{$search['search']}%");
         }
-        return $users->sortable()->paginate($perPage);
+        return $users->sortable()->paginate(10);
     }
 
     public function createUser(array $data)
@@ -29,9 +34,10 @@ class UserRepository
         return User::create($data);
     }
 
-    public function updateUser(array $data,$id)
+    public function updateUser(array $data, $id)
     {
-        $user = User::find($id)->update($data);
+        $user = User::with('avatar')->find($id);
+        $user->update($data);
         if (isset($data['avatar'])) {
             if ($user->avatar) {
                 Helper::deleteFile($user->avatar->url);
@@ -40,12 +46,23 @@ class UserRepository
             $path = str_replace('public', 'storage', $data['avatar']->store('public/avatars'));
             $user->avatar()->create(['path' => $path]);
         }
-        return $user->fresh();
+        return $user;
     }
 
     public function updateProfile(array $data)
     {
-        return User::find(auth()->user()->id)->update($data);
+        $customer = User::with('avatar')->find(auth()->user()->id);
+        $user = $customer->update($data);
+        if (isset($data['avatar'])) {
+            if ($customer->avatar) {
+                Helper::deleteFile($customer->avatar->url);
+                $customer->avatar()->delete();
+            }
+            $path = str_replace('public', 'storage', $data['avatar']->store('public/avatars'));
+            $customer->avatar()->create(['path' => $path]);
+        }
+
+        return $customer;
     }
 
     public function deleteUser($id): int

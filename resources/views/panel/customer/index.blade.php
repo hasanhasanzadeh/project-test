@@ -14,16 +14,15 @@
             <div class="w-full overflow-x-auto">
                 @php $row=0;@endphp
                 @if(!$customers->isEmpty())
-                    <table class="w-full  order">
+                    <table class="w-full">
                         <thead>
                         <tr class="text-xm font-bold tracking-wide text-center text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800" >
                             <th class="px-4 py-3">{{__('dashboard.row')}}</th>
                             <th class="px-4 py-3">{{__('dashboard.photo')}}</th>
-                            <th class="px-4 py-3">@sortablelink('full_name', __('dashboard.full_name'))</th>
-                            <th class="px-4 py-3">@sortablelink('level', __('dashboard.level'))</th>
-                            <th class="px-4 py-3">@sortablelink('status', __('dashboard.status'))</th>
+                            <th class="px-4 py-3">@sortablelink('name', __('dashboard.name'))</th>
+                            <th class="px-4 py-3">@sortablelink('national_code', __('dashboard.national_code'))</th>
                             <th class="px-4 py-3">@sortablelink('mobile', __('dashboard.mobile'))</th>
-                            <th class="px-4 py-3">@sortablelink('wallet', __('dashboard.wallet'))</th>
+                            <th class="px-4 py-3">@sortablelink('email', __('dashboard.email'))</th>
                             <th class="px-4 py-3">@sortablelink('created_at', __('dashboard.created_at'))</th>
                             <th class="px-4 py-3">{{__('dashboard.operation')}}</th>
                         </tr>
@@ -42,30 +41,19 @@
                                     @endif
                                 </td>
                                 <td class="px-4 py-3 text-xs">
-                                    {{$customer->full_name}}
+                                    {{$customer->name}}
                                 </td>
                                 <td class="px-4 py-3 text-xs">
                                    <span class="text-xs font-semibold inline-block py-1 px-2 rounded uppercase text-blue-600 bg-blue-200 last:mr-0 mr-1">
-                                            {{$customer->level}}
+                                            {{$customer->national_code}}
                                    </span>
-                                </td>
-                                <td class="px-4 py-3 text-sm" dir="ltr">
-                                    @if($customer->status)
-                                        <span class="text-xs font-semibold inline-block py-1 px-2 uppercase rounded text-emerald-600 bg-emerald-200 last:mr-0 mr-1">
-                                            {{__('dashboard.active')}}
-                                        </span>
-                                    @else
-                                        <span class="text-xs font-semibold inline-block py-1 px-2 uppercase rounded text-red-600 bg-red-200 last:mr-0 mr-1">
-                                            {{__('dashboard.inactive')}}
-                                        </span>
-                                    @endif
                                 </td>
                                 <td class="px-4 py-3 text-sm" dir="ltr">
                                     {{$customer->mobile}}
                                 </td>
                                 <td class="px-4 py-3 text-sm">
                                         <span class="text-xs font-semibold inline-block py-1 px-2 rounded text-blue-600 bg-blue-200 uppercase last:mr-0 mr-1">
-                                                 {{number_format($customer->wallet,0).' '.__('dashboard.iran_rial')}}
+                                                 {{$customer->email}}
                                         </span>
                                 </td>
                                 <td class="px-4 py-3 text-sm">

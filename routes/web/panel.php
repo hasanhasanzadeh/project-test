@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\Api\V1\UserController;
+use App\Http\Controllers\Panel\CategoryController;
+use App\Http\Controllers\Panel\CostController;
 use App\Http\Controllers\Panel\CustomerController;
 use App\Http\Controllers\Panel\DashboardController;
 use App\Http\Controllers\Panel\PermissionController;
@@ -16,14 +18,12 @@ Route::prefix('panel')->middleware(['auth','PanelAccess'])->group(function ($rou
     $route->resource('/customers',CustomerController::class);
     $route->resource('/roles',RoleController::class);
     $route->resource('/permissions',PermissionController::class);
+    $route->resource('/costs',CostController::class);
+    $route->resource('/categories',CategoryController::class);
 
+    $route->post('/costs/changes', [CostController::class, 'changes'])->name('costs.changes');
 
-    $route->get('/customer-verify',[VerifyController::class,'index'])->name('verifies.index');
-    $route->get('/customer-verify/{id}',[VerifyController::class,'show'])->name('verifies.show');
-    $route->get('/customer-verify/{id}/edit',[VerifyController::class,'edit'])->name('verifies.edit');
-    $route->patch('/customer-verify/{id}/update',[VerifyController::class,'update'])->name('verifies.update');
-
-
+    $route->get('/dashboard',[DashboardController::class,'index'])->name('dashboard.admin');
 
     $route->get('/customer/search',[CustomerController::class,'search'])->name('customers.search');
 

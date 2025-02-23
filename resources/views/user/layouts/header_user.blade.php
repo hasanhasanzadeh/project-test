@@ -57,7 +57,7 @@
                                     <span class="px-2">داشبورد</span>
                                 </a>
                             </li>
-                            @if(!$user->roles->isEmpty())
+                            @if(!auth()->user()->roles->isEmpty())
                                 <li>
                                     <a href="{{route('dashboard.admin')}}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white" role="menuitem">
                                         <i class="fa-solid fa-chart-area"></i>

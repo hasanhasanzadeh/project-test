@@ -33,7 +33,7 @@ class RoleService
         return $this->roleRepository->updateRole($data,$id);
     }
 
-    public function deleteRole($id)
+    public function deleteRole($id): int
     {
         return $this->roleRepository->deleteRole($id);
     }

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Base\Trait\HasRules;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
@@ -10,7 +11,7 @@ use Spatie\Permission\Traits\HasRoles;
 
 class Category extends Model
 {
-    use HasFactory, Sortable, HasRoles;
+    use HasFactory, Sortable, HasRoles, HasRules;
     protected $table = 'categories';
 
     protected $fillable = [

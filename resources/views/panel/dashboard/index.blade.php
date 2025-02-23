@@ -6,156 +6,35 @@
             {{$title}}
             <div id="persianDateTime" class="flex py-3">
                 <div> امروز :</div>
-                <div id="persianDate" class="px-3">{{ \App\Helpers\Helper::toSolarDate(\Carbon\Carbon::now()->format('Y-m-d')) }}</div>
                 <div id="persianTime" class="px-3">{{ \Carbon\Carbon::now()->format('H:i:s') }}</div>
             </div>
         </span>
-        <div class="grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
             <div class="shadow bg-gray-200 dark:bg-gray-700 rounded gap-4 border dark:text-gray-200">
-                <a href="{{route('withdrawals.index')}}">
-                    <div class="flex justify-between p-4 m-2">
-                        <div>
-                            <i class="fa-solid fa-arrow-up text-red-700 text-3xl"></i>
-                            <h4>کل برداشت به تومان</h4>
-                        </div>
-                        <span>
-                        {{\App\Helpers\Helper::totalWithdrawal()}}
-                        <span>تومان</span>
-                    </span>
-                    </div>
-                </a>
-            </div>
-            <div class="shadow bg-gray-200 dark:bg-gray-700 rounded gap-4 border dark:text-gray-200">
-                <div class="flex justify-between p-4 m-2">
-                    <a href="{{route('payments.index')}}">
-                    <div>
-                        <i class="fa-solid fa-arrow-down text-blue-700 text-3xl"></i>
-                        <h4>کل واریز به تومان</h4>
-                    </div>
-                    <span>
-                        {{\App\Helpers\Helper::totalDeposit()}}
-                        <span>تومان</span>
-                    </span>
-                    </a>
-                </div>
-            </div>
-            <div class="shadow bg-gray-200 dark:bg-gray-700 rounded gap-4 border dark:text-gray-200">
-                <div class="flex justify-between p-4 m-2">
-                    <a href="{{route('withdrawals.index')}}">
-                    <div>
-                        <i class="fa-solid fa-arrow-circle-up text-red-700 text-3xl"></i>
-                        <h4>برداشت امروز به تومان</h4>
-                    </div>
-                    <span>
-                        {{\App\Helpers\Helper::totalWithdrawal(today:'true')}}
-                        <span>تومان</span>
-                    </span>
-                    </a>
-                </div>
-            </div>
-            <div class="shadow bg-gray-200 dark:bg-gray-700 rounded gap-4 border dark:text-gray-200">
-                <div class="flex justify-between p-4 m-2">
-                    <a href="{{route('payments.index')}}">
-                    <div>
-                        <i class="fa-solid fa-arrow-circle-down text-blue-700 text-3xl"></i>
-                        <h4>واریز امروز به تومان</h4>
-                    </div>
-                    <span>
-                        {{\App\Helpers\Helper::totalDeposit(today:'true')}}
-                        <span>تومان</span>
-                    </span>
-                    </a>
-                </div>
-            </div>
-        </div>
-        <div class="grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 my-4">
-            <div class="shadow bg-gray-200 dark:bg-gray-700 rounded gap-4 border dark:text-gray-200">
-                <div class="flex justify-between p-4 m-2">
-                    <a href="{{route('payments.index')}}">
-                    <div>
-                        <i class="fa-solid fa-coins text-blue-700 text-3xl"></i>
-                        <h4>کل واریز ارز</h4>
-                    </div>
-                    <span>
-                        {{\App\Helpers\Helper::totalWithdrawal()}}
-                    </span>
-                    </a>
-                </div>
-            </div>
-            <div class="shadow bg-gray-200 dark:bg-gray-700 rounded gap-4 border dark:text-gray-200">
-                <div class="flex justify-between p-4 m-2">
-                    <a href="{{route('withdrawals.index')}}">
-                    <div>
-                        <i class="fa-solid fa-coins text-red-700 text-3xl"></i>
-                        <h4>کل برداشت ارز</h4>
-                    </div>
-                    <span>
-                        {{\App\Helpers\Helper::totalDeposit()}}
-                    </span>
-                    </a>
-                </div>
-            </div>
-            <div class="shadow bg-gray-200 dark:bg-gray-700 rounded gap-4 border dark:text-gray-200">
-                <a href="{{route('withdrawals.index')}}">
+                <a href="{{route('costs.index')}}">
                 <div class="flex justify-between p-4 m-2">
                     <div>
                         <i class="fa-solid fa-money-bill-1 text-green-700 text-3xl"></i>
-                        <h4>تراکنش های منتظر پرداخت</h4>
+                        <h4>درخواست های منتظر پرداخت</h4>
                     </div>
                     <span>
-                        {{\App\Models\Withdrawal::where('status','pending')->count()}}
+                        {{\App\Models\Cost::where('status','pending')->count()}}
                     </span>
                 </div>
                 </a>
             </div>
             <div class="shadow bg-gray-200 dark:bg-gray-700 rounded gap-4 border dark:text-gray-200">
-                <a href="{{route('verifies.index')}}">
+                <a href="{{route('customers.index')}}">
                     <div class="flex justify-between p-4 m-2">
                         <div>
                             <i class="fa-solid fa-users-line text-yellow-600 text-3xl"></i>
-                            <h4>کاربران منتظر احراز هویت</h4>
+                            <h4>کاربران </h4>
                         </div>
                         <span>
-                        {{App\Models\User::whereNotNull('authorize_file_id')->whereNotNull('national_card_file_id')->where('authorize_file_status','pending')->where('national_card_file_status','pending')->count()}}
+                        {{App\Models\User::all()->count()}}
                     </span>
                     </div>
                 </a>
             </div>
-        </div>
-    </div>
-    <div class="container px-6 mx-auto grid my-3">
-        <div class="grid gap-4 sm:grid-cols-2">
-            <div class="w-full bg-white rounded-lg shadow dark:bg-gray-700 p-4 md:p-6 z-20">
-                <div class="flex justify-between mb-5">
-                            <div>
-                                <h5 class="inline-flex items-center text-gray-500 dark:text-gray-400 leading-none font-normal mb-2">
-                                    واریز
-                                </h5>
-                                <p class="text-gray-900 dark:text-white text-sm leading-none font-bold">۴۳۵۰۰۰</p>
-                            </div>
-                            <div>
-                                <h5 class="inline-flex items-center text-gray-500 dark:text-gray-400 leading-none font-normal mb-2">
-                                    برداشت
-                                </h5>
-                                <p class="text-gray-900 dark:text-white text-sm leading-none font-bold">۳۵۰۰۰</p>
-                            </div>
-                </div>
-                <div id="line-chart"></div>
-            </div>
-            <div class="w-full bg-white rounded-lg shadow dark:bg-gray-800 p-4 md:p-6">
-                <div class="flex justify-between border-gray-200 border-b dark:border-gray-700 pb-3">
-                    <dl>
-                        <dt class="text-base font-normal text-gray-500 dark:text-gray-400 pb-1">واریز</dt>
-                        <dd class="leading-none text-xl font-bold text-green-500 dark:text-green-400">{{\App\Helpers\Helper::totalDeposit()}}</dd>
-                    </dl>
-                    <dl>
-                        <dt class="text-base font-normal text-gray-500 dark:text-gray-400 pb-1">برداشت</dt>
-                        <dd class="leading-none text-xl font-bold text-red-600 dark:text-red-500">{{\App\Helpers\Helper::totalWithdrawal()}}</dd>
-                    </dl>
-                </div>
-                <div id="bar-chart"></div>
-            </div>
-        </div>
     </div>
 
 @endsection
@@ -341,7 +220,7 @@
         }
 
 
-        let dateString = "{{ \App\Helpers\Helper::toSolarDate(\Carbon\Carbon::now()->format('Y-m-d')) }}";
+        let dateString = "{{ verta()->format(\Carbon\Carbon::now()->format('Y-m-d')) }}";
         let timeString = "{{ \Carbon\Carbon::now()->format('H:i:s') }}";
 
         // Convert the time string to an actual date object in JavaScript
