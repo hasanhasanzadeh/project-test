@@ -24,7 +24,10 @@ Before you begin, ensure you have the following installed on your machine:
    cp .env.example .env
    php artisan key:generate
    php artisan migrate --seed
+   php artisan schedule:run
    php artisan serve
    npm install && npm run dev
    
-
+   mobile : 0911111111111
+   password: 12345678
+   
