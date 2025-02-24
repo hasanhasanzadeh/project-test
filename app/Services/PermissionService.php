@@ -15,26 +15,26 @@ class PermissionService
 
     public function getPermissionById($id)
     {
-        return $this->permissionRepository->findById($id);
+        return $this->permissionRepository->find($id);
     }
 
     public function getAllPermisions($perPage,array $search=null)
     {
-        return $this->permissionRepository->getAllPermissions($perPage,$search);
+        return $this->permissionRepository->all($perPage,$search);
     }
 
     public function createPermission(array $data)
     {
-        return $this->permissionRepository->createPermission($data);
+        return $this->permissionRepository->create($data);
     }
 
     public function updatePermission(array $data,$id)
     {
-        return $this->permissionRepository->updatePermission($data,$id);
+        return $this->permissionRepository->update($data,$id);
     }
 
     public function deletePermission($id): int
     {
-        return $this->permissionRepository->deletePermission($id);
+        return $this->permissionRepository->delete($id);
     }
 }

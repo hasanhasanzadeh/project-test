@@ -16,7 +16,7 @@ class CostService
 
     public function getCostById($id,$auth=false)
     {
-        return $this->costRepository->findById($id,$auth);
+        return $this->costRepository->find($id,$auth);
     }
 
     public function getCostByIdWithoutAuth($id,$user_id)
@@ -26,7 +26,7 @@ class CostService
 
     public function getAllCosts(array $search=null,$auth=false)
     {
-        return $this->costRepository->getAllCosts($search,auth:$auth);
+        return $this->costRepository->all($search,auth:$auth);
     }
 
     public function createCost(array $data)
@@ -35,16 +35,16 @@ class CostService
         if (isset($data['cost_file'])) {
             $data['cost_file_id'] = Helper::uploadImageVerify($data['cost_file']);
         }
-        return $this->costRepository->createCost($data);
+        return $this->costRepository->create($data);
     }
 
     public function updateCost(array $data,$id)
     {
-        return $this->costRepository->updateCost($data,$id);
+        return $this->costRepository->update($data,$id);
     }
 
     public function deleteCost($id): int
     {
-        return $this->costRepository->deleteCost($id);
+        return $this->costRepository->delete($id);
     }
 }

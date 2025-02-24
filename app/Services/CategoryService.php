@@ -15,26 +15,26 @@ class CategoryService
 
     public function getCategoryById($id)
     {
-        return $this->categoryRepository->findById($id);
+        return $this->categoryRepository->find($id);
     }
 
     public function getAllCategories($perPage,array $search=null)
     {
-        return $this->categoryRepository->getAllCategories($perPage,$search);
+        return $this->categoryRepository->all($perPage,$search);
     }
 
     public function createCategory(array $data)
     {
-        return $this->categoryRepository->createCategory($data);
+        return $this->categoryRepository->create($data);
     }
 
     public function updateCategory(array $data,$id)
     {
-        return $this->categoryRepository->updateCategory($data,$id);
+        return $this->categoryRepository->update($data,$id);
     }
 
     public function deleteCategory($id): int
     {
-        return $this->categoryRepository->deleteCategory($id);
+        return $this->categoryRepository->delete($id);
     }
 }

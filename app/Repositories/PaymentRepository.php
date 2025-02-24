@@ -2,9 +2,10 @@
 
 namespace App\Repositories;
 
+use App\Repositories\Interfaces\PaymentRepositoryInterface;
 use Illuminate\Support\Facades\Http;
 
-class PaymentRepository
+class PaymentRepository implements PaymentRepositoryInterface
 {
     protected mixed $banks;
 

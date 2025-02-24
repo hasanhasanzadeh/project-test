@@ -4,11 +4,11 @@ namespace App\Repositories;
 
 use App\Helpers\Helper;
 use App\Models\User;
-use Illuminate\Support\Facades\Hash;
+use App\Repositories\Interfaces\UserRepositoryInterface;
 
-class UserRepository
+class UserRepository implements UserRepositoryInterface
 {
-    public function findById($id)
+    public function find($id)
     {
         return User::find($id);
     }
@@ -18,7 +18,7 @@ class UserRepository
         return User::where('national_code',$nationalCode)->first();
     }
 
-    public function getAllUsers($search = null)
+    public function all($search = null)
     {
         $users = User::query();
         if (isset($search['search'])) {
@@ -29,12 +29,12 @@ class UserRepository
         return $users->sortable()->paginate(10);
     }
 
-    public function createUser(array $data)
+    public function create(array $data)
     {
         return User::create($data);
     }
 
-    public function updateUser(array $data, $id)
+    public function update(array $data, $id)
     {
         $user = User::with('avatar')->find($id);
         $user->update($data);
@@ -65,7 +65,7 @@ class UserRepository
         return $customer;
     }
 
-    public function deleteUser($id): int
+    public function delete($id): int
     {
         return User::destroy($id);
     }

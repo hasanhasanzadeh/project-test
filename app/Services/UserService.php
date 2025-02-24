@@ -30,13 +30,13 @@ class UserService
 
     public function getAllUsers($perPage,array $search=null)
     {
-        return $this->userRepository->getAllUsers($perPage,$search);
+        return $this->userRepository->all($perPage,$search);
     }
 
     public function registerUser(array $data)
     {
         $data['password'] = Hash::make($data['password']);
-        return $this->userRepository->createUser($data);
+        return $this->userRepository->create($data);
     }
 
     public function updateUser(array $data,$id)
@@ -47,7 +47,7 @@ class UserService
         $data = array_filter($data, function ($value) {
             return !is_null($value);
         });
-        return $this->userRepository->updateUser($data,$id);
+        return $this->userRepository->update($data,$id);
     }
 
     public function updateProfile(array $data)
@@ -63,7 +63,7 @@ class UserService
 
     public function deleteUser($id): int
     {
-        return $this->userRepository->deleteUser($id);
+        return $this->userRepository->delete($id);
     }
 
     public function uploadAvatar(array $data)

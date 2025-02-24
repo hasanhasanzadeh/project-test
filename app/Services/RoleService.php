@@ -15,26 +15,26 @@ class RoleService
 
     public function getRoleById($id)
     {
-        return $this->roleRepository->findById($id);
+        return $this->roleRepository->find($id);
     }
 
     public function getAllRole($perPage,array $search=null)
     {
-        return $this->roleRepository->getAllRoles($perPage,$search);
+        return $this->roleRepository->all($perPage,$search);
     }
 
     public function createRole(array $data)
     {
-        return $this->roleRepository->createRole($data);
+        return $this->roleRepository->create($data);
     }
 
     public function updateRole(array $data,$id)
     {
-        return $this->roleRepository->updateRole($data,$id);
+        return $this->roleRepository->update($data,$id);
     }
 
     public function deleteRole($id): int
     {
-        return $this->roleRepository->deleteRole($id);
+        return $this->roleRepository->delete($id);
     }
 }

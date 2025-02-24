@@ -3,16 +3,17 @@
 namespace App\Repositories;
 
 
+use App\Repositories\Interfaces\RoleRepositoryInterface;
 use Spatie\Permission\Models\Role;
 
-class RoleRepository
+class RoleRepository implements RoleRepositoryInterface
 {
-    public function findById($id)
+    public function find($id)
     {
         return Role::find($id);
     }
 
-    public function getAllRoles( $search = null)
+    public function all( $search = null)
     {
         $roles = Role::query();
         if(isset($search['search'])){
@@ -21,17 +22,17 @@ class RoleRepository
         return $roles->paginate( 10);
     }
 
-    public function createRole(array $data)
+    public function create(array $array)
     {
-        return Role::create($data);
+        return Role::create($array);
     }
 
-    public function deleteRole($id): int
+    public function delete($id): int
     {
         return Role::destroy($id);
     }
 
-    public function updateRole(array $data, $id)
+    public function update(array $data, $id)
     {
         return Role::find($id)->update($data);
     }

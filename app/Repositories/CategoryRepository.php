@@ -4,16 +4,17 @@ namespace App\Repositories;
 
 use App\Helpers\Helper;
 use App\Models\Category;
+use App\Repositories\Interfaces\CategoryRepositoryInterface;
 
 
-class CategoryRepository
+class CategoryRepository implements CategoryRepositoryInterface
 {
-    public function findById($id)
+    public function find($id)
     {
         return Category::find($id);
     }
 
-    public function getAllCategories($search=null)
+    public function all($search=null)
     {
         $categories = Category::query();
         if(isset($search['search'])){
@@ -22,17 +23,17 @@ class CategoryRepository
         return $categories->sortable()->paginate(10);
     }
 
-    public function createCategory(array $data)
+    public function create(array $data)
     {
         return Category::create($data);
     }
 
-    public function deleteCategory($id): int
+    public function delete($id): int
     {
         return Category::destroy($id);
     }
 
-    public function updateCategory(array $data,$id)
+    public function update(array $data,$id)
     {
         $category = Category::find($id)->update($data);
         if (isset($data['photo'])) {

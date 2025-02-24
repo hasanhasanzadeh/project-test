@@ -4,20 +4,21 @@ namespace App\Repositories;
 
 
 use App\Events\EventCreatePermission;
+use App\Repositories\Interfaces\PermissionRepositoryInterface;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Spatie\Permission\Models\Permission;
 
 
-class PermissionRepository
+class PermissionRepository implements PermissionRepositoryInterface
 {
-    public function findById($id)
+    public function find($id)
     {
         return Permission::find($id);
     }
 
-    public function getAllPermissions($search=null): LengthAwarePaginator
+    public function all($search=null): LengthAwarePaginator
     {
         $permissions = Permission::query();
         if(isset($search['search'])){
@@ -26,11 +27,11 @@ class PermissionRepository
         return $permissions->paginate(10);
     }
 
-    public function createPermission(array $data)
+    public function create(array  $array)
     {
         DB::beginTransaction();
         try {
-            $permission = Permission::create($data);
+            $permission = Permission::create($array);
             new EventCreatePermission($permission);
             DB::commit();
             return $permission;
@@ -38,15 +39,14 @@ class PermissionRepository
             DB::rollBack();
             Log::error($exception->getMessage());
         }
-
     }
 
-    public function deletePermission($id): int
+    public function delete($id): int
     {
         return Permission::destroy($id);
     }
 
-    public function updatePermission(array $data,$id)
+    public function update(array $data,$id)
     {
         return Permission::find($id)->update($data);
     }
