@@ -34,20 +34,17 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withExceptions(function (Exceptions $exceptions) {
         $exceptions->render(function (NotFoundHttpException $e, $request) {
             if ($request->is('api/*')) {
-                return ApiResponse::error(message: 'Page Not Found', status: $e->getStatusCode(), errors: $e->getMessage());
+                return ApiResponse::error(message: 'Page Not Found', errors: $e->getMessage(), code: $e->getStatusCode());
             }
-            return ApiResponse::success(data: []);
         });
         $exceptions->render(function (AuthenticationException $e, $request) {
             if ($request->is('api/*')) {
-                return ApiResponse::error(message: 'UnAuthenticated', status: 403, errors: $e->getMessage());
+                return ApiResponse::error(message: 'UnAuthenticated', errors: $request->getMessage(), code: 403);
             }
-            return ApiResponse::success(data:[]);
         });
         $exceptions->render(function (HttpExceptionInterface $e, $request) {
             if ($request->is('api/*')) {
-                return ApiResponse::error(message: 'Server Error', status: $e->getStatusCode(), errors: $e->getMessage());
+                return ApiResponse::error(message: 'Server Error', errors: $e->getMessage(), code: $e->getStatusCode());
             }
-            return ApiResponse::success(data: []);
         });
     })->create();
