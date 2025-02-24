@@ -3,14 +3,13 @@
 namespace App\Services;
 
 use App\Repositories\PermissionRepository;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Spatie\Permission\Contracts\Permission;
 
-class PermissionService
+readonly class PermissionService
 {
-    protected PermissionRepository $permissionRepository;
-
-    public function __construct(PermissionRepository $permissionRepository)
+    public function __construct(private PermissionRepository $permissionRepository)
     {
-        $this->permissionRepository = $permissionRepository;
     }
 
     public function getPermissionById($id)
@@ -18,12 +17,12 @@ class PermissionService
         return $this->permissionRepository->find($id);
     }
 
-    public function getAllPermisions($perPage,array $search=null)
+    public function getAllPermissions($perPage,array $search=null): LengthAwarePaginator
     {
         return $this->permissionRepository->all($perPage,$search);
     }
 
-    public function createPermission(array $data)
+    public function createPermission(array $data): Permission|\Spatie\Permission\Models\Permission|null
     {
         return $this->permissionRepository->create($data);
     }

@@ -13,7 +13,7 @@ class RoleRepository implements RoleRepositoryInterface
         return Role::find($id);
     }
 
-    public function all( $search = null)
+    public function all( $search = null): \Illuminate\Contracts\Pagination\LengthAwarePaginator
     {
         $roles = Role::query();
         if(isset($search['search'])){
@@ -22,7 +22,7 @@ class RoleRepository implements RoleRepositoryInterface
         return $roles->paginate( 10);
     }
 
-    public function create(array $array)
+    public function create(array $array): \Spatie\Permission\Contracts\Role|Role
     {
         return Role::create($array);
     }

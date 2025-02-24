@@ -4,14 +4,12 @@ namespace App\Services;
 
 use App\Helpers\Helper;
 use App\Repositories\CostRepository;
+use App\Repositories\Interfaces\CostRepositoryInterface;
 
-class CostService
+readonly class CostService
 {
-    protected CostRepository $costRepository;
-
-    public function __construct(CostRepository $costRepository)
+    public function __construct(private CostRepositoryInterface $costRepository)
     {
-        $this->costRepository = $costRepository;
     }
 
     public function getCostById($id,$auth=false)

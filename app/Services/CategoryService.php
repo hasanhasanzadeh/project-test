@@ -3,14 +3,12 @@
 namespace App\Services;
 
 use App\Repositories\CategoryRepository;
+use App\Repositories\Interfaces\CategoryRepositoryInterface;
 
-class CategoryService
+readonly class CategoryService
 {
-    protected CategoryRepository $categoryRepository;
-
-    public function __construct(CategoryRepository $categoryRepository)
+    public function __construct(private CategoryRepositoryInterface $categoryRepository)
     {
-        $this->categoryRepository = $categoryRepository;
     }
 
     public function getCategoryById($id)

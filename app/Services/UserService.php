@@ -9,18 +9,15 @@ use App\Repositories\UserRepository;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;
 
-class UserService
+readonly class UserService
 {
-    protected UserRepository $userRepository;
-
-    public function __construct(UserRepository $userRepository)
+    public function __construct(private UserRepository $userRepository)
     {
-        $this->userRepository = $userRepository;
     }
 
     public function getUserById($id)
     {
-        return $this->userRepository->findById($id);
+        return $this->userRepository->find($id);
     }
 
     public function getUserByNationalCode($nationalCode)

@@ -4,13 +4,11 @@ namespace App\Services;
 
 use App\Repositories\RoleRepository;
 
-class RoleService
+readonly class RoleService
 {
-    protected RoleRepository $roleRepository;
 
-    public function __construct(RoleRepository $roleRepository)
+    public function __construct(private RoleRepository $roleRepository)
     {
-        $this->roleRepository = $roleRepository;
     }
 
     public function getRoleById($id)
@@ -18,12 +16,12 @@ class RoleService
         return $this->roleRepository->find($id);
     }
 
-    public function getAllRole($perPage,array $search=null)
+    public function getAllRole($perPage,array $search=null): \Illuminate\Contracts\Pagination\LengthAwarePaginator
     {
         return $this->roleRepository->all($perPage,$search);
     }
 
-    public function createRole(array $data)
+    public function createRole(array $data): \Spatie\Permission\Contracts\Role|\Spatie\Permission\Models\Role
     {
         return $this->roleRepository->create($data);
     }

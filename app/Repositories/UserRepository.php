@@ -29,9 +29,9 @@ class UserRepository implements UserRepositoryInterface
         return $users->sortable()->paginate(10);
     }
 
-    public function create(array $data)
+    public function create(array $array)
     {
-        return User::create($data);
+        return User::create($array);
     }
 
     public function update(array $data, $id)

@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Hash;
 
 class ForgotService
 {
-    public function getForgotPassword(array $data)
+    public function getForgotPassword(array $data): bool
     {
             $user = User::where('mobile',$data['mobile'])->first();
             if (!$user) {

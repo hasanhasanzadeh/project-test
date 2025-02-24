@@ -2,15 +2,13 @@
 
 namespace App\Services;
 
+use App\Repositories\Interfaces\PaymentRepositoryInterface;
 use App\Repositories\PaymentRepository;
 
-class PaymentService
+readonly class PaymentService
 {
-    protected PaymentRepository $paymentRepository;
-
-    public function __construct(PaymentRepository $paymentRepository)
+    public function __construct(private PaymentRepositoryInterface $paymentRepository)
     {
-        $this->paymentRepository = $paymentRepository;
     }
 
     public function makePayment($iban, $amount): array

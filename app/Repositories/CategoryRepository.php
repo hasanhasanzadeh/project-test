@@ -23,9 +23,9 @@ class CategoryRepository implements CategoryRepositoryInterface
         return $categories->sortable()->paginate(10);
     }
 
-    public function create(array $data)
+    public function create(array $array)
     {
-        return Category::create($data);
+        return Category::create($array);
     }
 
     public function delete($id): int
